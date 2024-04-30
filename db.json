@@ -1,0 +1,74 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Wash the dishes",
+      "priority": "Medium",
+      "category": "Fun",
+      "completed": true
+    },
+    {
+      "id": "2",
+      "title": "Take a 20-minute walk",
+      "priority": "Low",
+      "category": "Health",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "title": "Call your grandma",
+      "priority": "Medium",
+      "category": "Personal",
+      "completed": false
+    },
+    {
+      "id": "4",
+      "title": "Water the plants",
+      "priority": "Medium",
+      "category": "Health",
+      "completed": true
+    },
+    {
+      "id": "5",
+      "title": "Declutter your desk for 15 minutes",
+      "priority": "High",
+      "category": "Organization",
+      "completed": true
+    },
+    {
+      "id": "6",
+      "title": "Read a chapter of that book you've been meaning to finish",
+      "priority": "Medium",
+      "category": "Leisure",
+      "completed": false
+    },
+    {
+      "id": "7",
+      "title": "Research a new recipe to try this week",
+      "priority": "Low",
+      "category": "Fun",
+      "completed": false
+    },
+    {
+      "id": "8",
+      "title": "Organize your digital files",
+      "priority": "High",
+      "category": "Productivity",
+      "completed": true
+    },
+    {
+      "id": "9",
+      "title": "Do some stretches or light exercises",
+      "priority": "Medium",
+      "category": "Health",
+      "completed": true
+    },
+    {
+      "id": "10",
+      "title": "Write a thank-you note to someone",
+      "priority": "Medium",
+      "category": "Personal",
+      "completed": false
+    }
+  ]
+}
