@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [todoValue, setTodoValue] = useState<{ title: string; priority: string; category: string }>({
     title: "",
     priority: "all",
-    category: "all"
+    category: "all",
   });
 
   useEffect(() => {
@@ -33,14 +33,15 @@ const App: React.FC = () => {
     }
   }
 
-  const addTodo = async () => {
+  const addTodo = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:3000/tasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(todoValue)
+        body: JSON.stringify({ ...todoValue, completed: false })
       });
 
       if (!response.ok) {
@@ -53,13 +54,12 @@ const App: React.FC = () => {
       setTodoValue({
         title: "",
         priority: "all",
-        category: "all"
+        category: "all",
       });
     } catch (error) {
       console.error("Error adding todo:", error);
     }
   };
-
 
   const editTodo = async (id: string, updatedTodo: Todo) => {
     try {
@@ -83,19 +83,47 @@ const App: React.FC = () => {
 
   const deleteTodo = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-        method: "DELETE"
-      });
+      const confirmDelete = window.confirm("Are you sure you want to delete this todo?");
+      if (confirmDelete) {
+        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+          method: "DELETE"
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to delete todo");
+        if (!response.ok) {
+          throw new Error("Failed to delete todo");
+        }
+
+        fetchTodos();
       }
-
-      fetchTodos();
     } catch (error) {
       console.error("Error deleting todo:", error);
     }
   };
+
+  const toggleTodo = async (id: string) => {
+    try {
+      const todoToUpdate = todos.find(todo => todo.id === id);
+      if (!todoToUpdate) throw new Error("Todo not found");
+
+      const updatedTodo = { ...todoToUpdate, completed: !todoToUpdate.completed };
+
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedTodo)
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to toggle todo");
+      }
+
+      fetchTodos();
+    } catch (error) {
+      console.error("Error toggling todo:", error);
+    }
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -114,7 +142,7 @@ const App: React.FC = () => {
         priorities={priorities}
         categories={categories}
       />
-      <TodoList todos={todos} fetchTodos={fetchTodos} deleteTodo={deleteTodo} editTodo={editTodo} categories={categories} priorities={priorities} />
+      <TodoList todos={todos} fetchTodos={fetchTodos} deleteTodo={deleteTodo} editTodo={editTodo} categories={categories} priorities={priorities} toggleTodo={toggleTodo} />
     </div>
   );
 }
